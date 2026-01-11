@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine # Sử dụng bản Alpine cho nhẹ
+    container_name: minidrive-db
+    ports:
+      - "5432:5432" # Map cổng 5432 của máy thật vào 5432 của container
+    environment:
+      - POSTGRES_USER=minidrive_user
+      - POSTGRES_PASSWORD=1
+      - POSTGRES_DB=minidrive_db
+
+    restart: always

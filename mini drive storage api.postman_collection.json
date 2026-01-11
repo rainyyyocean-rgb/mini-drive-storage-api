@@ -1,0 +1,816 @@
+{
+	"info": {
+		"_postman_id": "40b3fd54-7670-4fa1-9799-fce674e5f7e2",
+		"name": "mini drive storage api",
+		"description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "51157041",
+		"_collection_link": "https://duongvdhe182527-1323388.postman.co/workspace/Vu-Dai-Duong's-Workspace~8f7ae6cf-dbe8-4ac9-8586-ec3db557c98f/collection/51157041-40b3fd54-7670-4fa1-9799-fce674e5f7e2?action=share&source=collection_link&creator=51157041"
+	},
+	"item": [
+		{
+			"name": "create folder",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Tai Lieu Hoc Tap 2\",\r\n  \"parentId\": null,\r\n  \"type\": \"FOLDER\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/files",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"files"
+					]
+				},
+				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"token\", jsonData.token);"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"test@gmail.com\",\n  \"password\": \"123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/auth/login",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"login"
+					]
+				},
+				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+			},
+			"response": []
+		},
+		{
+			"name": "register",
+			"request": {
+				"auth": {
+					"type": "bearer"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"test@gmail.com\",\r\n  \"password\": \"123\",\r\n  \"fullName\": \"Test User\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/auth/register",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "upload file",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file1",
+							"type": "file",
+							"src": [
+								"/D:/ngu2.txt",
+								"/D:/pngtree-premium-photo-ai-sunset-images-picture-photos-wallpaper-1920x1080-size-4k-picture-image_15756837.jpg"
+							]
+						},
+						{
+							"key": "file2",
+							"type": "file",
+							"src": "/D:/16764307.jpg",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/files?parentId=7",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"files"
+					],
+					"query": [
+						{
+							"key": "parentId",
+							"value": "7"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all files",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// 1. Cấu hình thông tin đăng nhập",
+							"const loginUrl = \"http://localhost:8080/api/v1/auth/login\";",
+							"const email = \"debug_user_1@example.com\"; // Điền user của bạn",
+							"const password = \"Password123!\"; // Điền pass của bạn",
+							"",
+							"// 2. Tạo request đăng nhập (chạy ngầm)",
+							"const loginRequest = {",
+							"    url: loginUrl,",
+							"    method: 'POST',",
+							"    header: {",
+							"        'Content-Type': 'application/json'",
+							"    },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: JSON.stringify({",
+							"            \"email\": email,",
+							"            \"password\": password",
+							"        })",
+							"    }",
+							"};",
+							"",
+							"// 3. Gửi request và lấy Token",
+							"console.log(\"Đang lấy token mới...\");",
+							"pm.sendRequest(loginRequest, function (err, res) {",
+							"    if (err) {",
+							"        console.log(err);",
+							"    } else if (res.code === 200) {",
+							"        var data = res.json();",
+							"        ",
+							"        // --- QUAN TRỌNG: Sửa key bên dưới theo đúng response của API Login ---",
+							"        // Ví dụ response trả về: { \"accessToken\": \"eyJ...\", ... }",
+							"        var token = data.token; ",
+							"        ",
+							"        // Gán token vào biến môi trường (hoặc biến cục bộ) để Auth tab sử dụng",
+							"        pm.environment.set(\"autoToken\", token); ",
+							"        ",
+							"        console.log(\"Đã cập nhật token mới thành công!\");",
+							"    } else {",
+							"        console.log(\"Đăng nhập thất bại! Code: \" + res.code);",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{autoToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/files",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"files"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "share",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{autoToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/files/:id/share",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"files",
+						":id",
+						"share"
+					],
+					"query": [
+						{
+							"key": "requestId",
+							"value": null,
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "share with me",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// 1. Cấu hình thông tin đăng nhập\r",
+							"const loginUrl = \"http://localhost:8080/api/v1/auth/login\";\r",
+							"const email = \"debug_user_1@example.com\"; // Điền user của bạn\r",
+							"const password = \"Password123!\"; // Điền pass của bạn\r",
+							"\r",
+							"// 2. Tạo request đăng nhập (chạy ngầm)\r",
+							"const loginRequest = {\r",
+							"    url: loginUrl,\r",
+							"    method: 'POST',\r",
+							"    header: {\r",
+							"        'Content-Type': 'application/json'\r",
+							"    },\r",
+							"    body: {\r",
+							"        mode: 'raw',\r",
+							"        raw: JSON.stringify({\r",
+							"            \"email\": email,\r",
+							"            \"password\": password\r",
+							"        })\r",
+							"    }\r",
+							"};\r",
+							"\r",
+							"// 3. Gửi request và lấy Token\r",
+							"console.log(\"Đang lấy token mới...\");\r",
+							"pm.sendRequest(loginRequest, function (err, res) {\r",
+							"    if (err) {\r",
+							"        console.log(err);\r",
+							"    } else if (res.code === 200) {\r",
+							"        var data = res.json();\r",
+							"        \r",
+							"        // --- QUAN TRỌNG: Sửa key bên dưới theo đúng response của API Login ---\r",
+							"        // Ví dụ response trả về: { \"accessToken\": \"eyJ...\", ... }\r",
+							"        var token = data.token; \r",
+							"        \r",
+							"        // Gán token vào biến môi trường (hoặc biến cục bộ) để Auth tab sử dụng\r",
+							"        pm.environment.set(\"autoToken\", token); \r",
+							"        \r",
+							"        console.log(\"Đã cập nhật token mới thành công!\");\r",
+							"    } else {\r",
+							"        console.log(\"Đăng nhập thất bại! Code: \" + res.code);\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{autoToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/files/shared-with-me",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"files",
+						"shared-with-me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "download file/folder",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// 1. Cấu hình thông tin đăng nhập\r",
+							"const loginUrl = \"http://localhost:8080/api/v1/auth/login\";\r",
+							"const email = \"debug_user_1@example.com\"; // Điền user của bạn\r",
+							"const password = \"Password123!\"; // Điền pass của bạn\r",
+							"\r",
+							"// 2. Tạo request đăng nhập (chạy ngầm)\r",
+							"const loginRequest = {\r",
+							"    url: loginUrl,\r",
+							"    method: 'POST',\r",
+							"    header: {\r",
+							"        'Content-Type': 'application/json'\r",
+							"    },\r",
+							"    body: {\r",
+							"        mode: 'raw',\r",
+							"        raw: JSON.stringify({\r",
+							"            \"email\": email,\r",
+							"            \"password\": password\r",
+							"        })\r",
+							"    }\r",
+							"};\r",
+							"\r",
+							"// 3. Gửi request và lấy Token\r",
+							"console.log(\"Đang lấy token mới...\");\r",
+							"pm.sendRequest(loginRequest, function (err, res) {\r",
+							"    if (err) {\r",
+							"        console.log(err);\r",
+							"    } else if (res.code === 200) {\r",
+							"        var data = res.json();\r",
+							"        \r",
+							"        // --- QUAN TRỌNG: Sửa key bên dưới theo đúng response của API Login ---\r",
+							"        // Ví dụ response trả về: { \"accessToken\": \"eyJ...\", ... }\r",
+							"        var token = data.token; \r",
+							"        \r",
+							"        // Gán token vào biến môi trường (hoặc biến cục bộ) để Auth tab sử dụng\r",
+							"        pm.environment.set(\"autoToken\", token); \r",
+							"        \r",
+							"        console.log(\"Đã cập nhật token mới thành công!\");\r",
+							"    } else {\r",
+							"        console.log(\"Đăng nhập thất bại! Code: \" + res.code);\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{autoToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/files/:fileId/download",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"files",
+						":fileId",
+						"download"
+					],
+					"variable": [
+						{
+							"key": "fileId",
+							"value": "11024"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "polling",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// 1. Cấu hình thông tin đăng nhập\r",
+							"const loginUrl = \"http://localhost:8080/api/v1/auth/login\";\r",
+							"const email = \"debug_user_1@example.com\"; // Điền user của bạn\r",
+							"const password = \"Password123!\"; // Điền pass của bạn\r",
+							"\r",
+							"// 2. Tạo request đăng nhập (chạy ngầm)\r",
+							"const loginRequest = {\r",
+							"    url: loginUrl,\r",
+							"    method: 'POST',\r",
+							"    header: {\r",
+							"        'Content-Type': 'application/json'\r",
+							"    },\r",
+							"    body: {\r",
+							"        mode: 'raw',\r",
+							"        raw: JSON.stringify({\r",
+							"            \"email\": email,\r",
+							"            \"password\": password\r",
+							"        })\r",
+							"    }\r",
+							"};\r",
+							"\r",
+							"// 3. Gửi request và lấy Token\r",
+							"console.log(\"Đang lấy token mới...\");\r",
+							"pm.sendRequest(loginRequest, function (err, res) {\r",
+							"    if (err) {\r",
+							"        console.log(err);\r",
+							"    } else if (res.code === 200) {\r",
+							"        var data = res.json();\r",
+							"        \r",
+							"        // --- QUAN TRỌNG: Sửa key bên dưới theo đúng response của API Login ---\r",
+							"        // Ví dụ response trả về: { \"accessToken\": \"eyJ...\", ... }\r",
+							"        var token = data.token; \r",
+							"        \r",
+							"        // Gán token vào biến môi trường (hoặc biến cục bộ) để Auth tab sử dụng\r",
+							"        pm.environment.set(\"autoToken\", token); \r",
+							"        \r",
+							"        console.log(\"Đã cập nhật token mới thành công!\");\r",
+							"    } else {\r",
+							"        console.log(\"Đăng nhập thất bại! Code: \" + res.code);\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{autoToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/files/downloads/:requestId",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"files",
+						"downloads",
+						":requestId"
+					],
+					"query": [
+						{
+							"key": "requestId",
+							"value": null,
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "requestId",
+							"value": "4e85b21f-279c-4474-80e5-51ae11a889b8"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "usage",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// 1. Cấu hình thông tin đăng nhập\r",
+							"const loginUrl = \"http://localhost:8080/api/v1/auth/login\";\r",
+							"const email = \"debug_user_1@example.com\"; // Điền user của bạn\r",
+							"const password = \"Password123!\"; // Điền pass của bạn\r",
+							"\r",
+							"// 2. Tạo request đăng nhập (chạy ngầm)\r",
+							"const loginRequest = {\r",
+							"    url: loginUrl,\r",
+							"    method: 'POST',\r",
+							"    header: {\r",
+							"        'Content-Type': 'application/json'\r",
+							"    },\r",
+							"    body: {\r",
+							"        mode: 'raw',\r",
+							"        raw: JSON.stringify({\r",
+							"            \"email\": email,\r",
+							"            \"password\": password\r",
+							"        })\r",
+							"    }\r",
+							"};\r",
+							"\r",
+							"// 3. Gửi request và lấy Token\r",
+							"console.log(\"Đang lấy token mới...\");\r",
+							"pm.sendRequest(loginRequest, function (err, res) {\r",
+							"    if (err) {\r",
+							"        console.log(err);\r",
+							"    } else if (res.code === 200) {\r",
+							"        var data = res.json();\r",
+							"        \r",
+							"        // --- QUAN TRỌNG: Sửa key bên dưới theo đúng response của API Login ---\r",
+							"        // Ví dụ response trả về: { \"accessToken\": \"eyJ...\", ... }\r",
+							"        var token = data.token; \r",
+							"        \r",
+							"        // Gán token vào biến môi trường (hoặc biến cục bộ) để Auth tab sử dụng\r",
+							"        pm.environment.set(\"autoToken\", token); \r",
+							"        \r",
+							"        console.log(\"Đã cập nhật token mới thành công!\");\r",
+							"    } else {\r",
+							"        console.log(\"Đăng nhập thất bại! Code: \" + res.code);\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{autoToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/files/analytics/usage",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"files",
+						"analytics",
+						"usage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "debug",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/debug/generate-system",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"debug",
+						"generate-system"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "download zip",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// 1. Cấu hình thông tin đăng nhập\r",
+							"const loginUrl = \"http://localhost:8080/api/v1/auth/login\";\r",
+							"const email = \"debug_user_1@example.com\"; // Điền user của bạn\r",
+							"const password = \"Password123!\"; // Điền pass của bạn\r",
+							"\r",
+							"// 2. Tạo request đăng nhập (chạy ngầm)\r",
+							"const loginRequest = {\r",
+							"    url: loginUrl,\r",
+							"    method: 'POST',\r",
+							"    header: {\r",
+							"        'Content-Type': 'application/json'\r",
+							"    },\r",
+							"    body: {\r",
+							"        mode: 'raw',\r",
+							"        raw: JSON.stringify({\r",
+							"            \"email\": email,\r",
+							"            \"password\": password\r",
+							"        })\r",
+							"    }\r",
+							"};\r",
+							"\r",
+							"// 3. Gửi request và lấy Token\r",
+							"console.log(\"Đang lấy token mới...\");\r",
+							"pm.sendRequest(loginRequest, function (err, res) {\r",
+							"    if (err) {\r",
+							"        console.log(err);\r",
+							"    } else if (res.code === 200) {\r",
+							"        var data = res.json();\r",
+							"        \r",
+							"        // --- QUAN TRỌNG: Sửa key bên dưới theo đúng response của API Login ---\r",
+							"        // Ví dụ response trả về: { \"accessToken\": \"eyJ...\", ... }\r",
+							"        var token = data.token; \r",
+							"        \r",
+							"        // Gán token vào biến môi trường (hoặc biến cục bộ) để Auth tab sử dụng\r",
+							"        pm.environment.set(\"autoToken\", token); \r",
+							"        \r",
+							"        console.log(\"Đã cập nhật token mới thành công!\");\r",
+							"    } else {\r",
+							"        console.log(\"Đăng nhập thất bại! Code: \" + res.code);\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{autoToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/api/v1/files/downloads/:requestId/content",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"files",
+						"downloads",
+						":requestId",
+						"content"
+					],
+					"query": [
+						{
+							"key": "requestId",
+							"value": null,
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "requestId",
+							"value": "4e85b21f-279c-4474-80e5-51ae11a889b8"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
