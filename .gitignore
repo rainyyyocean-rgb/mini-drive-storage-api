@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+### credential db ###
+docker-compose.yml
+/src/main/resources/application.yml
